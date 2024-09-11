@@ -77,7 +77,7 @@ function App() {
         handleRowClick={handleRowClick}></CustomerList>
 
       <CustomerAddUpdateForm
-        mode={mode} 
+        mode={mode}
         inputValue={inputValue}
         handleInputChange={handleInputChange}
         handleCancel={handleCancel}

@@ -1,8 +1,8 @@
 const CustomerList = (params) => {
 
-    return(
-        <div>
-            <div className='fs-4 fw-bold mb-4'>
+  return (
+    <div>
+      <div className='fs-4 fw-bold mb-4'>
         Customer List
       </div>
 
@@ -28,8 +28,8 @@ const CustomerList = (params) => {
           </tbody>
         </table>
       </div>
-        </div>
-    )
+    </div>
+  )
 }
 
 export default CustomerList;
