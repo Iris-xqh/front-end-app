@@ -1,13 +1,13 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import { items, getAll, get, deleteById, post, put } from './memdb.js';
+import { getAll, deleteById, post, put } from './memdb.js';
 
 function App() {
   const [customers, setCustomers] = useState([]);
-
   const [selected, setSelected] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
-  const [inputValue, setInputValue] = useState({ id: '', email: '', password: '' });
+  const [inputValue, setInputValue] = useState(null);
+  let mode = selected ? "Update" : "Add";
 
   const getCustomers = function () {
     setCustomers(getAll());
@@ -21,7 +21,7 @@ function App() {
     if (selectedRow && selected && selectedRow === row.id) {
       setSelected(false);
       setSelectedRow(null);
-      setInputValue({ id: '', name: '', email: '', password: '' });
+      setInputValue(null);
     }
     else {
       setSelectedRow(row.id);
@@ -33,7 +33,35 @@ function App() {
   const handleCancel = () => {
     setSelected(false);
     setSelectedRow(null);
-    setInputValue({ id: '', name: '', email: '', password: '' });
+    setInputValue(null);
+  }
+
+  const handleDelete = () => {
+    if (!selected) return;
+    handleCancel();
+    deleteById(selectedRow);
+    setCustomers(getAll());
+  }
+
+  const handleSave = () => {
+    if (mode === "Add") {
+      post(inputValue);
+      setCustomers(getAll());
+      handleCancel();
+    }
+    else if (mode === "Update") {
+      put(inputValue.id, inputValue);
+      setCustomers(getAll());
+      handleCancel();
+    }
+  }
+
+  const handleInputChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    let newInputValue = { ...inputValue };
+    newInputValue[name] = value;
+    setInputValue(newInputValue);
   }
 
 
@@ -68,7 +96,7 @@ function App() {
       </div>
 
       <div className='fs-4 fw-bold mb-4'>
-        Updates
+        {mode}
       </div>
       <div>
         <div className="row mb-3">
@@ -76,7 +104,13 @@ function App() {
             Name:
           </div>
           <div className="col-6">
-            <input className="form-control w-100" value={inputValue.name} id="nameInput"></ input>
+            <input className="form-control w-100"
+              type="text"
+              name='name'
+              onChange={(e) => handleInputChange(e)}
+              value={inputValue ? inputValue.name : ''}
+              placeholder='Customer Name'
+              id="nameInput"></ input>
           </div>
         </div>
         <div className="row mb-3">
@@ -84,7 +118,13 @@ function App() {
             Email:
           </div>
           <div className="col-6">
-            <input className="form-control w-100" value={inputValue.email} id="emailInput"></ input>
+            <input className="form-control w-100"
+              type="text"
+              name='email'
+              onChange={(e) => handleInputChange(e)}
+              value={inputValue ? inputValue.email : ''}
+              placeholder='Customer email'
+              id="emailInput"></ input>
           </div>
         </div>
         <div className="row mb-3">
@@ -92,14 +132,20 @@ function App() {
             Password:
           </div>
           <div className="col-6">
-            <input className="form-control w-100" value={inputValue.password} id="passwordInput"></ input>
+            <input className="form-control w-100"
+              type="text"
+              name='password'
+              onChange={(e) => handleInputChange(e)}
+              value={inputValue ? inputValue.password : ''}
+              placeholder='Customer password'
+              id="passwordInput"></ input>
           </div>
         </div>
       </div>
 
       <div className='d-flex flex-row'>
-        <button type="button" className="btn btn-outline-danger px-3 me-2">Delete</button>
-        <button type="button" className="btn btn-outline-primary px-3 me-2">Save</button>
+        <button type="button" onClick={() => handleDelete()} className="btn btn-outline-danger px-3 me-2">Delete</button>
+        <button type="button" onClick={() => handleSave()} className="btn btn-outline-primary px-3 me-2">Save</button>
         <button type="button" onClick={() => handleCancel()} className="btn btn-outline-secondary px-3 me-2">Cancel</button>
 
       </div>
