@@ -70,7 +70,7 @@ function App() {
 
   return (
 
-    <div className='container d-flex flex-column justify-content-center w-50'>
+    <div className='container p-5 d-flex flex-column justify-content-center w-50'>
       <CustomerList
         customers={customers}
         selectedRow={selectedRow}

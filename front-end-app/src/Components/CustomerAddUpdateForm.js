@@ -1,10 +1,10 @@
 const CustomerAddUpdateForm = (params) => {
   return (
     <div>
-      <div className='fs-4 fw-bold mb-4'>
+      <div className='bg-primary-subtle rounded-top-4 p-2 fs-4 fw-bold'>
         {params.mode}
       </div>
-      <div>
+      <div className="bg-primary  bg-opacity-10 rounded-bottom-4 p-3 pt-4">
         <div className="row mb-3">
           <div className="col-2">
             Name:
@@ -47,13 +47,14 @@ const CustomerAddUpdateForm = (params) => {
               id="passwordInput"></ input>
           </div>
         </div>
-      </div>
-
-      <div className='d-flex flex-row'>
+        <div className='d-flex flex-row'>
         <button type="button" onClick={() => params.handleDelete()} className="btn btn-outline-danger px-3 me-2">Delete</button>
         <button type="button" onClick={() => params.handleSave()} className="btn btn-outline-primary px-3 me-2">Save</button>
         <button type="button" onClick={() => params.handleCancel()} className="btn btn-outline-secondary px-3 me-2">Cancel</button>
       </div>
+      </div>
+
+     
     </div>
   )
 }

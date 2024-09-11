@@ -2,12 +2,12 @@ const CustomerList = (params) => {
 
   return (
     <div>
-      <div className='fs-4 fw-bold mb-4'>
+      <div className='text-center bg-body-secondary rounded-4 p-2 fs-4 fw-bold mb-4'>
         Customer List
       </div>
 
       <div >
-        <table className="table table-hover">
+        <table className="bg-primary-subtle table table-hover">
           <thead>
             <tr>
               <th scope="col">Name</th>
