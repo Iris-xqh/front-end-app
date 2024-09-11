@@ -19,9 +19,6 @@ export const items = [
     }
 ]
 
-
-
-
 export function getAll() {
     return items;
 }
