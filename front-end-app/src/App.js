@@ -1,4 +1,4 @@
-import './App.css';
+
 import React, { useState, useEffect } from 'react';
 import { getAll, deleteById, post, put } from './memdb.js';
 import CustomerList from './Components/CustomerList.js';
