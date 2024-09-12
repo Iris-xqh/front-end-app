@@ -1,75 +1,91 @@
-export const items = [
-    {
-        "id": 0,
-        "name": "Mike Johnsons",
-        "email": "mikej@abc.com",
-        "password": "mikej"
-    },
-    {
-        "name": "Cindy Smiths",
-        "email": "cinds @abc.com",
-        "password": "cinds",
-        "id": 1
-    },
-    {
-        "name": "Julio Martins",
-        "email": "julim @abc.com",
-        "password": "julim",
-        "id": 2
-    }
-]
+const baseURL = 'http://localhost:4000/customers';
 
-export function getAll() {
-    return items;
-}
-
-export function get(id) {
-    let result = null;
-    for (let item of items) {
-        if (item.id === id) {
-            result = item;
+export function getAll(setCustomers) {
+    const myInit = {
+        method: 'GET',
+        mode: 'cors'
+    };
+    const fetchData = async (url) => {
+        try {
+            const response = await fetch(url, myInit);
+            if (!response.ok) {
+                throw new Error(`Error fetching data: ${response.status}`);
+            }
+            const data = await response.json();
+            setCustomers(data);
+        } catch (error) {
+            alert(error);
         }
     }
-    return result;
+    fetchData(baseURL);
 }
 
-export function deleteById(id) {
-    let arrayIndex = getArrayIndexForId(id);
-    if (arrayIndex >= 0 && arrayIndex < items.length) {
-        items.splice(arrayIndex, 1);
-    }
-}
-
-export function post(item) {
-    let nextid = getNextId();
-    item.id = nextid;
-    items[items.length] = item;
-}
-
-export function put(id, item) {
-    for (let i = 0; i < items.length; i++) {
-        if (items[i].id === id) {
-            items[i] = item;
-            return;
+export function deleteById(id, postOpCallback) {
+    const myInit = {
+        method: 'DELETE',
+        mode: 'cors'
+    };
+    const deleteRequest = async (url) => {
+        try {
+            const response = await fetch(url, myInit);
+            if (!response.ok) {
+                throw new Error(`Error fetching data: ${response.status}`);
+            }
+            await response.json()
+            postOpCallback();
+        } catch (error) {
+            alert(error);
         }
     }
+    deleteRequest(baseURL + '/' + id);
 }
 
-function getArrayIndexForId(id) {
-    for (let i = 0; i < items.length; i++) {
-        if (items[i].id === id) {
-            return i;
+export function post(customer, postOpCallback) {
+    const myInit = {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(customer)
+    };
+
+    const postRequest = async (url) => {
+        try {
+            const response = await fetch(url, myInit);
+            if (!response.ok) {
+                throw new Error(`Error posting data: ${response.status}`);
+            }
+            await response.json();
+            postOpCallback();
+        } catch (error) {
+            alert(error);
         }
     }
-    return -1;
+    postRequest(baseURL);
 }
 
-
-function getNextId() {
-    let maxid = 0;
-    for (let item of items) {
-        maxid = (item.id > maxid) ? item.id : maxid;
+export function put(customer, id, putOpCallback) {
+    const myInit = {
+        method: 'PUT',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(customer)
+    };
+    const putRequest = async (url) => {
+        try {
+            const response = await fetch(url, myInit);
+            if (!response.ok) {
+                throw new Error(`Error updating data: ${response.status}`);
+            }
+            await response.json();
+            putOpCallback();
+        } catch (error) {
+            alert(error);
+        }
     }
-    return maxid + 1;
+    putRequest(baseURL + '/' + id);
 }
 

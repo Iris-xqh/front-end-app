@@ -13,7 +13,7 @@ function App() {
   let mode = selected ? "Update" : "Add";
 
   const getCustomers = function () {
-    setCustomers(getAll());
+    getAll(setCustomers);
   }
 
   useEffect(() => {
@@ -40,22 +40,18 @@ function App() {
   }
 
   const handleDelete = () => {
+    let postOpCallback = () => { setInputValue(null); };
     if (!selected) return;
-    handleCancel();
-    deleteById(selectedRow);
-    setCustomers(getAll());
+    deleteById(selectedRow, postOpCallback);
   }
 
   const handleSave = () => {
+    let postOpCallback = () => { setInputValue(null); };
     if (mode === "Add") {
-      post(inputValue);
-      setCustomers(getAll());
-      handleCancel();
+      post(inputValue, postOpCallback);
     }
     else if (mode === "Update") {
-      put(inputValue.id, inputValue);
-      setCustomers(getAll());
-      handleCancel();
+      put(inputValue, inputValue.id, postOpCallback);
     }
   }
 
