@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import { getAll, deleteById, post, put } from './memdb.js';
+import { getAll, deleteById, post, put } from './restdb.js';
 import CustomerList from './Components/CustomerList.js';
 import CustomerAddUpdateForm from './Components/CustomerAddUpdateForm.js';
 
@@ -18,7 +18,7 @@ function App() {
 
   useEffect(() => {
     getCustomers();
-  }, [])
+  }, [inputValue])
 
   const handleRowClick = (row) => {
     if (selectedRow && selected && selectedRow === row.id) {
@@ -40,13 +40,19 @@ function App() {
   }
 
   const handleDelete = () => {
-    let postOpCallback = () => { setInputValue(null); };
+    let postOpCallback = () => { setInputValue(null);
+      setSelected(false);
+      setSelectedRow(null);
+     };
     if (!selected) return;
     deleteById(selectedRow, postOpCallback);
   }
 
   const handleSave = () => {
-    let postOpCallback = () => { setInputValue(null); };
+    let postOpCallback = () => { 
+      setInputValue(null);
+    setSelected(false);
+  setSelectedRow(null); };
     if (mode === "Add") {
       post(inputValue, postOpCallback);
     }
